@@ -13,6 +13,7 @@ import {
   Settings,
   ChevronRight,
   ChevronDown,
+  Database,
 } from "lucide-react";
 import {
   Sidebar,
@@ -63,6 +64,20 @@ export function AppSidebar() {
       <SidebarTrigger className="m-2 self-end" />
       
       <SidebarContent className="px-2">
+        {/* Datasets Section */}
+        <SidebarGroup>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild className={isActive("/datasets") ? "bg-primary text-primary-foreground" : "hover:bg-secondary"}>
+                <Link to="/datasets">
+                  <Database className="mr-2 h-4 w-4" />
+                  {!isCollapsed && <span>Datasets</span>}
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+
         {/* Consumer Duty Section */}
         <SidebarGroup>
           <Collapsible open={consumerDutyOpen} onOpenChange={setConsumerDutyOpen}>

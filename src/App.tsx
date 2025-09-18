@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppSidebar } from "@/components/AppSidebar";
 import { DataProvider } from "@/contexts/DataContext";
 import Dashboard from "./pages/Dashboard";
+import Datasets from "./pages/Datasets";
 import ProductsServices from "./pages/consumer-duty/ProductsServices";
 import PriceValue from "./pages/consumer-duty/PriceValue";
 import ConsumerUnderstanding from "./pages/consumer-duty/ConsumerUnderstanding";
@@ -40,6 +41,10 @@ const App = () => (
               <main className="flex-1">
                 <Routes>
                   <Route path="/" element={<Dashboard />} />
+                  
+                  {/* Dataset Routes */}
+                  <Route path="/datasets" element={<Datasets />} />
+                  
                   {/* Consumer Duty Routes */}
                   <Route path="/consumer-duty/products-services" element={<ProductsServices />} />
                   <Route path="/consumer-duty/price-value" element={<PriceValue />} />
