@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Eye, Filter, X } from 'lucide-react';
-import { useVulnerability, CustomerData } from '@/contexts/VulnerabilityContext';
+import { useVulnerability, CustomerData, isCustomerVulnerable } from '@/contexts/VulnerabilityContext';
 import { CustomerDetailsModal } from '@/components/CustomerDetailsModal';
 
 export default function VulnerableCustomerList() {
@@ -34,8 +34,8 @@ export default function VulnerableCustomerList() {
     );
   }
 
-  // Get vulnerable customers only
-  const vulnerableCustomers = customersData.filter(customer => customer.Vulnerable);
+  // Get vulnerable customers only - ensure we include all vulnerable customers
+  const vulnerableCustomers = customersData.filter(isCustomerVulnerable);
 
   // Get unique values for filters
   const productCategories = ['Mortgages', 'Loans', 'Saver plans'];
@@ -66,12 +66,18 @@ export default function VulnerableCustomerList() {
     if (filters.vulnerabilityScoreBand !== 'all') {
       const [min, max] = filters.vulnerabilityScoreBand.split('-').map(Number);
       filtered = filtered.filter(c => 
-        c['Vulnerability Score'] >= min && c['Vulnerability Score'] <= max
+        c['Vulnerability Score'] && 
+        c['Vulnerability Score'] >= min && 
+        c['Vulnerability Score'] <= max
       );
     }
 
-    // Sort by vulnerability score descending
-    return filtered.sort((a, b) => b['Vulnerability Score'] - a['Vulnerability Score']);
+    // Sort by vulnerability score descending - handle missing scores
+    return filtered.sort((a, b) => {
+      const scoreA = a['Vulnerability Score'] || 0;
+      const scoreB = b['Vulnerability Score'] || 0;
+      return scoreB - scoreA;
+    });
   }, [vulnerableCustomers, filters]);
 
   const clearFilters = () => {
@@ -226,9 +232,13 @@ export default function VulnerableCustomerList() {
                       <TableCell className="font-mono">{customer['Customer ID']}</TableCell>
                       <TableCell className="font-medium">{customer['Customer Name']}</TableCell>
                       <TableCell>
-                        <Badge variant={getScoreBadgeVariant(customer['Vulnerability Score'])}>
-                          {customer['Vulnerability Score']}
-                        </Badge>
+                        {customer['Vulnerability Score'] ? (
+                          <Badge variant={getScoreBadgeVariant(customer['Vulnerability Score'])}>
+                            {customer['Vulnerability Score']}
+                          </Badge>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
                       </TableCell>
                       <TableCell>{customer['Product Category']}</TableCell>
                       <TableCell>{customer.Product}</TableCell>
