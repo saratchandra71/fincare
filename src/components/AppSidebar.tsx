@@ -111,16 +111,38 @@ export function AppSidebar() {
 
         {/* Vulnerable Customers Section */}
         <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild className={isActive("/vulnerable-customers") ? "bg-primary text-primary-foreground" : "hover:bg-secondary"}>
-                <Link to="/vulnerable-customers">
-                  <Users className="mr-2 h-4 w-4" />
+          <Collapsible open={auditOpen} onOpenChange={setAuditOpen}>
+            <CollapsibleTrigger asChild>
+              <SidebarMenuButton className="w-full justify-between p-2 hover:bg-secondary">
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4" />
                   {!isCollapsed && <span>Vulnerable Customers</span>}
-                </Link>
+                </div>
+                {!isCollapsed && (auditOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />)}
               </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarGroupContent className="ml-4">
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild className={isActive("/vulnerable-customers") ? "bg-primary text-primary-foreground" : "hover:bg-secondary"}>
+                      <Link to="/vulnerable-customers">Upload Data</Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild className={isActive("/vulnerable-customers/stats") ? "bg-primary text-primary-foreground" : "hover:bg-secondary"}>
+                      <Link to="/vulnerable-customers/stats">Vulnerability Stats</Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild className={isActive("/vulnerable-customers/list") ? "bg-primary text-primary-foreground" : "hover:bg-secondary"}>
+                      <Link to="/vulnerable-customers/list">Customer List</Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </Collapsible>
         </SidebarGroup>
 
         {/* Audit Reports Section */}
