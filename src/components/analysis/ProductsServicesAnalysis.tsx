@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, CheckCircle, Shield } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useData } from "@/contexts/DataContext";
 
 interface ProductData {
   Product_ID: string;
@@ -23,12 +24,15 @@ interface AnalysisResult {
 
 export function ProductsServicesAnalysis() {
   const { toast } = useToast();
+  const { allDatasetsLoaded } = useData();
   const [loading, setLoading] = useState(true);
   const [analysisResults, setAnalysisResults] = useState<AnalysisResult[]>([]);
 
   useEffect(() => {
-    loadAndAnalyzeData();
-  }, []);
+    if (allDatasetsLoaded) {
+      loadAndAnalyzeData();
+    }
+  }, [allDatasetsLoaded]);
 
   const loadAndAnalyzeData = async () => {
     try {
@@ -110,6 +114,24 @@ export function ProductsServicesAnalysis() {
 
     return flaggedProducts;
   };
+
+  if (!allDatasetsLoaded) {
+    return (
+      <div className="p-6 space-y-4">
+        <div className="flex items-center gap-2">
+          <Shield className="h-5 w-5" />
+          <h2 className="text-xl font-semibold">Products & Services Analysis</h2>
+        </div>
+        <Card>
+          <CardContent className="p-6 text-center">
+            <p className="text-muted-foreground">
+              Datasets are not yet loaded. Please load all required datasets to proceed with analysis.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, FileText, MessageSquare, BookOpen } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useData } from "@/contexts/DataContext";
 
 interface ConsumerUnderstandingData {
   communication_ID: string;
@@ -34,12 +35,14 @@ interface FlaggedCommunication {
 }
 
 export function ConsumerUnderstandingAnalysis() {
+  const { allDatasetsLoaded } = useData();
   const [flaggedCommunications, setFlaggedCommunications] = useState<FlaggedCommunication[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const analyzeConsumerUnderstanding = async () => {
+    if (allDatasetsLoaded) {
+      const analyzeConsumerUnderstanding = async () => {
       try {
         const response = await fetch('/data/ConsumerUnderstanding.csv');
         if (!response.ok) throw new Error('Failed to load ConsumerUnderstanding data');
@@ -117,10 +120,11 @@ export function ConsumerUnderstandingAnalysis() {
       } finally {
         setLoading(false);
       }
-    };
+      };
 
-    analyzeConsumerUnderstanding();
-  }, []);
+      analyzeConsumerUnderstanding();
+    }
+  }, [allDatasetsLoaded]);
 
   const getIssueIcon = (type: string) => {
     switch (type) {
@@ -149,6 +153,26 @@ export function ConsumerUnderstandingAnalysis() {
       default: return '📝';
     }
   };
+
+  if (!allDatasetsLoaded) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold">Consumer Understanding Analysis</h2>
+            <p className="text-muted-foreground">
+              Analysis of communication clarity and customer comprehension issues
+            </p>
+          </div>
+        </div>
+        <Alert>
+          <AlertDescription>
+            Datasets are not yet loaded. Please load all required datasets to proceed with analysis.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   if (loading) return <div className="p-6">Loading Consumer Understanding analysis...</div>;
   if (error) return <div className="p-6 text-destructive">Error: {error}</div>;

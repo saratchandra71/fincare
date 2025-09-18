@@ -5,6 +5,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppSidebar } from "@/components/AppSidebar";
+import { DataProvider } from "@/contexts/DataContext";
 import Dashboard from "./pages/Dashboard";
 import ProductsServices from "./pages/consumer-duty/ProductsServices";
 import PriceValue from "./pages/consumer-duty/PriceValue";
@@ -21,11 +22,12 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <SidebarProvider>
+    <DataProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <SidebarProvider>
           <div className="flex min-h-screen w-full">
             <AppSidebar />
             <div className="flex-1 flex flex-col">
@@ -58,9 +60,10 @@ const App = () => (
               </main>
             </div>
           </div>
-        </SidebarProvider>
-      </BrowserRouter>
-    </TooltipProvider>
+          </SidebarProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </DataProvider>
   </QueryClientProvider>
 );
 

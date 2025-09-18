@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Phone, Clock, ThumbsDown, LogOut } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useData } from "@/contexts/DataContext";
 
 interface ConsumerSupportData {
   Support_Interaction_ID: string;
@@ -35,12 +36,14 @@ interface FlaggedSupport {
 }
 
 export function ConsumerSupportAnalysis() {
+  const { allDatasetsLoaded } = useData();
   const [flaggedSupport, setFlaggedSupport] = useState<FlaggedSupport[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const analyzeConsumerSupport = async () => {
+    if (allDatasetsLoaded) {
+      const analyzeConsumerSupport = async () => {
       try {
         const response = await fetch('/data/ConsumerSupport.csv');
         if (!response.ok) throw new Error('Failed to load ConsumerSupport data');
@@ -130,10 +133,11 @@ export function ConsumerSupportAnalysis() {
       } finally {
         setLoading(false);
       }
-    };
+      };
 
-    analyzeConsumerSupport();
-  }, []);
+      analyzeConsumerSupport();
+    }
+  }, [allDatasetsLoaded]);
 
   const getIssueIcon = (type: string) => {
     switch (type) {
@@ -169,6 +173,26 @@ export function ConsumerSupportAnalysis() {
     if (score >= 3) return 'secondary';
     return 'destructive';
   };
+
+  if (!allDatasetsLoaded) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold">Consumer Support Analysis</h2>
+            <p className="text-muted-foreground">
+              Analysis of customer service quality and support experience issues
+            </p>
+          </div>
+        </div>
+        <Alert>
+          <AlertDescription>
+            Datasets are not yet loaded. Please load all required datasets to proceed with analysis.
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
 
   if (loading) return <div className="p-6">Loading Consumer Support analysis...</div>;
   if (error) return <div className="p-6 text-destructive">Error: {error}</div>;

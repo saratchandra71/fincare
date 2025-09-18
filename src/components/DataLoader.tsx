@@ -1,27 +1,13 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, Database, Loader2, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-interface DataStatus {
-  name: string;
-  filename: string;
-  loaded: boolean;
-  loading: boolean;
-  error?: string;
-  dataCount?: number;
-}
+import { useData } from "@/contexts/DataContext";
 
 export function DataLoader() {
   const { toast } = useToast();
-  const [datasets, setDatasets] = useState<DataStatus[]>([
-    { name: "ProductData", filename: "ProductPerformance.csv", loaded: false, loading: false },
-    { name: "PricingData", filename: "PriceValue.csv", loaded: false, loading: false },
-    { name: "CommData", filename: "ConsumerUnderstanding.csv", loaded: false, loading: false },
-    { name: "SupportData", filename: "ConsumerSupport.csv", loaded: false, loading: false },
-  ]);
+  const { datasets, setDatasets } = useData();
 
   const loadDataset = async (index: number) => {
     const dataset = datasets[index];
