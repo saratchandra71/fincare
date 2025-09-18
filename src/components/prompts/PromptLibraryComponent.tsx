@@ -54,6 +54,7 @@ const PROMPT_CATEGORIES = [
   'Price & Value Analysis Prompts',
   'Consumer Understanding Analysis Prompts',
   'Consumer Support Analysis Prompts',
+  'Vulnerable customers prompts',
   'Audit Report/Logs Prompts',
   'Prompt Library Management Prompts',
   'Prompt Log Management Prompts'
