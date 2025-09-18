@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { FileText, Download, Mail, Calendar, Settings } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useData } from "@/contexts/DataContext";
 
 interface ReportFilters {
   product: string;
@@ -29,6 +30,7 @@ interface ReportOptions {
 
 export function AuditReportComponent() {
   const { toast } = useToast();
+  const { allDatasetsLoaded } = useData();
   const [products, setProducts] = useState<string[]>([]);
   const [filters, setFilters] = useState<ReportFilters>({
     product: 'all',
@@ -138,6 +140,24 @@ export function AuditReportComponent() {
     
     return activeFilters.length > 0 ? activeFilters.join(', ') : 'No filters applied';
   };
+
+  // Check if datasets are loaded
+  if (!allDatasetsLoaded) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center">Datasets Required</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-center text-muted-foreground">
+              Audit features are unavailable until all datasets are loaded. Please load all required datasets to proceed.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

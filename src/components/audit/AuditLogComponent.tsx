@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, Clock, AlertTriangle, CheckCircle, User, FileText } from "lucide-react";
 import { format } from "date-fns";
+import { useData } from "@/contexts/DataContext";
 
 interface AuditLogEntry {
   id: string;
@@ -25,6 +26,7 @@ interface AuditLogEntry {
 }
 
 export function AuditLogComponent() {
+  const { allDatasetsLoaded } = useData();
   const [auditLogs, setAuditLogs] = useState<AuditLogEntry[]>([]);
   const [products, setProducts] = useState<string[]>([]);
   const [filteredLogs, setFilteredLogs] = useState<AuditLogEntry[]>([]);
@@ -160,6 +162,24 @@ export function AuditLogComponent() {
       default: return <FileText className="h-4 w-4" />;
     }
   };
+
+  // Check if datasets are loaded
+  if (!allDatasetsLoaded) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center">Datasets Required</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-center text-muted-foreground">
+              Audit features are unavailable until all datasets are loaded. Please load all required datasets to proceed.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Calendar, Filter, AlertTriangle, CheckCircle, Clock } from "lucide-react";
 import { format } from "date-fns";
+import { useData } from "@/contexts/DataContext";
 
 interface AuditTrailEntry {
   id: string;
@@ -29,6 +30,7 @@ const SUGGESTED_QUERIES = [
 ];
 
 export function AuditTrailComponent() {
+  const { allDatasetsLoaded } = useData();
   const [auditTrail, setAuditTrail] = useState<AuditTrailEntry[]>([]);
   const [products, setProducts] = useState<string[]>([]);
   const [filteredTrail, setFilteredTrail] = useState<AuditTrailEntry[]>([]);
@@ -187,6 +189,24 @@ export function AuditTrailComponent() {
       default: return 'outline';
     }
   };
+
+  // Check if datasets are loaded
+  if (!allDatasetsLoaded) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center">Datasets Required</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-center text-muted-foreground">
+              Audit features are unavailable until all datasets are loaded. Please load all required datasets to proceed.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
