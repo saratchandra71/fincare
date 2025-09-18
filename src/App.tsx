@@ -10,6 +10,11 @@ import ProductsServices from "./pages/consumer-duty/ProductsServices";
 import PriceValue from "./pages/consumer-duty/PriceValue";
 import ConsumerUnderstanding from "./pages/consumer-duty/ConsumerUnderstanding";
 import ConsumerSupport from "./pages/consumer-duty/ConsumerSupport";
+import AuditLog from "./pages/audit/AuditLog";
+import AuditTrail from "./pages/audit/AuditTrail";
+import AuditReport from "./pages/audit/AuditReport";
+import PromptLibrary from "./pages/prompts/PromptLibrary";
+import PromptLog from "./pages/prompts/PromptLog";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,11 +46,11 @@ const App = () => (
                   
                   {/* Other Routes */}
                   <Route path="/vulnerable-customers" element={<div className="p-6">Vulnerable Customers</div>} />
-                  <Route path="/audit/log" element={<div className="p-6">Audit Log</div>} />
-                  <Route path="/audit/trail" element={<div className="p-6">Audit Trail</div>} />
-                  <Route path="/audit/report" element={<div className="p-6">Audit Report</div>} />
-                  <Route path="/prompts/library" element={<div className="p-6">Prompt Library</div>} />
-                  <Route path="/prompts/log" element={<div className="p-6">Prompt Log</div>} />
+                  <Route path="/audit/log" element={<AuditLog />} />
+                  <Route path="/audit/trail" element={<AuditTrail />} />
+                  <Route path="/audit/report" element={<AuditReport />} />
+                  <Route path="/prompts/library" element={<PromptLibrary />} />
+                  <Route path="/prompts/log" element={<PromptLog />} />
                   
                   {/* Catch-all route */}
                   <Route path="*" element={<NotFound />} />
