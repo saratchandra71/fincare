@@ -7,6 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppSidebar } from "@/components/AppSidebar";
 import Dashboard from "./pages/Dashboard";
 import ProductsServices from "./pages/consumer-duty/ProductsServices";
+import PriceValue from "./pages/consumer-duty/PriceValue";
+import ConsumerUnderstanding from "./pages/consumer-duty/ConsumerUnderstanding";
+import ConsumerSupport from "./pages/consumer-duty/ConsumerSupport";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,9 +35,9 @@ const App = () => (
                   <Route path="/" element={<Dashboard />} />
                   {/* Consumer Duty Routes */}
                   <Route path="/consumer-duty/products-services" element={<ProductsServices />} />
-                  <Route path="/consumer-duty/price-value" element={<div className="p-6">Price & Value Analysis</div>} />
-                  <Route path="/consumer-duty/understanding" element={<div className="p-6">Consumer Understanding Analysis</div>} />
-                  <Route path="/consumer-duty/support" element={<div className="p-6">Consumer Support Analysis</div>} />
+                  <Route path="/consumer-duty/price-value" element={<PriceValue />} />
+                  <Route path="/consumer-duty/understanding" element={<ConsumerUnderstanding />} />
+                  <Route path="/consumer-duty/support" element={<ConsumerSupport />} />
                   
                   {/* Other Routes */}
                   <Route path="/vulnerable-customers" element={<div className="p-6">Vulnerable Customers</div>} />
