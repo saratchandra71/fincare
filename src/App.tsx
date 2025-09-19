@@ -9,6 +9,11 @@ import { DataProvider } from "@/contexts/DataContext";
 import { VulnerabilityProvider } from "@/contexts/VulnerabilityContext";
 import Dashboard from "./pages/Dashboard";
 import ConsumerDuty from "./pages/consumer-duty/ConsumerDuty";
+import ConsumerDutyStats from "./pages/consumer-duty/ConsumerDutyStats";
+import ProductsServicesAnalysis from "./pages/consumer-duty/ProductsServicesAnalysis";
+import PriceValueAnalysis from "./pages/consumer-duty/PriceValueAnalysis";
+import ConsumerUnderstandingAnalysis from "./pages/consumer-duty/ConsumerUnderstandingAnalysis";
+import ConsumerSupportAnalysis from "./pages/consumer-duty/ConsumerSupportAnalysis";
 import VulnerableCustomers from "./pages/vulnerable-customers/VulnerableCustomers";
 import VulnerabilityStats from "./pages/vulnerable-customers/VulnerabilityStats";
 import VulnerableCustomerList from "./pages/vulnerable-customers/VulnerableCustomerList";
@@ -45,11 +50,11 @@ const App = () => (
                     
                     {/* Consumer Duty Routes */}
                     <Route path="/consumer-duty" element={<ConsumerDuty />} />
-                    <Route path="/consumer-duty/stats" element={<ConsumerDuty />} />
-                    <Route path="/consumer-duty/products-services" element={<ConsumerDuty />} />
-                    <Route path="/consumer-duty/price-value" element={<ConsumerDuty />} />
-                    <Route path="/consumer-duty/understanding" element={<ConsumerDuty />} />
-                    <Route path="/consumer-duty/support" element={<ConsumerDuty />} />
+                    <Route path="/consumer-duty/stats" element={<ConsumerDutyStats />} />
+                    <Route path="/consumer-duty/products-services" element={<ProductsServicesAnalysis />} />
+                    <Route path="/consumer-duty/price-value" element={<PriceValueAnalysis />} />
+                    <Route path="/consumer-duty/understanding" element={<ConsumerUnderstandingAnalysis />} />
+                    <Route path="/consumer-duty/support" element={<ConsumerSupportAnalysis />} />
                     
                     {/* Vulnerable Customers Routes */}
                     <Route path="/vulnerable-customers" element={<VulnerableCustomers />} />
