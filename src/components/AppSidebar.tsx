@@ -14,6 +14,7 @@ import {
   ChevronRight,
   ChevronDown,
   Database,
+  TrendingUp,
 } from "lucide-react";
 import {
   Sidebar,
@@ -33,16 +34,25 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const [consumerDutyOpen, setConsumerDutyOpen] = useState(true);
+  const [vulnerableCustomersOpen, setVulnerableCustomersOpen] = useState(false);
   const [auditOpen, setAuditOpen] = useState(false);
   const [promptsOpen, setPromptsOpen] = useState(false);
 
   const isCollapsed = state === "collapsed";
 
   const consumerDutyItems = [
+    { title: "Datasets", url: "/consumer-duty", icon: Database },
+    { title: "Consumer Duty Stats", url: "/consumer-duty/stats", icon: TrendingUp },
     { title: "Products & Services", url: "/consumer-duty/products-services", icon: FileCheck },
     { title: "Price & Value", url: "/consumer-duty/price-value", icon: DollarSign },
     { title: "Consumer Understanding", url: "/consumer-duty/understanding", icon: MessageSquare },
     { title: "Consumer Support", url: "/consumer-duty/support", icon: HeartHandshake },
+  ];
+
+  const vulnerableCustomerItems = [
+    { title: "Upload Data", url: "/vulnerable-customers", icon: Database },
+    { title: "Vulnerability Stats", url: "/vulnerable-customers/stats", icon: BarChart3 },
+    { title: "Customer List", url: "/vulnerable-customers/list", icon: Users },
   ];
 
   const auditItems = [
@@ -64,20 +74,6 @@ export function AppSidebar() {
       <SidebarTrigger className="m-2 self-end" />
       
       <SidebarContent className="px-2">
-        {/* Datasets Section */}
-        <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild className={isActive("/datasets") ? "bg-primary text-primary-foreground" : "hover:bg-secondary"}>
-                <Link to="/datasets">
-                  <Database className="mr-2 h-4 w-4" />
-                  {!isCollapsed && <span>Datasets</span>}
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-
         {/* Consumer Duty Section */}
         <SidebarGroup>
           <Collapsible open={consumerDutyOpen} onOpenChange={setConsumerDutyOpen}>
@@ -111,34 +107,29 @@ export function AppSidebar() {
 
         {/* Vulnerable Customers Section */}
         <SidebarGroup>
-          <Collapsible open={auditOpen} onOpenChange={setAuditOpen}>
+          <Collapsible open={vulnerableCustomersOpen} onOpenChange={setVulnerableCustomersOpen}>
             <CollapsibleTrigger asChild>
               <SidebarMenuButton className="w-full justify-between p-2 hover:bg-secondary">
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4" />
                   {!isCollapsed && <span>Vulnerable Customers</span>}
                 </div>
-                {!isCollapsed && (auditOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />)}
+                {!isCollapsed && (vulnerableCustomersOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />)}
               </SidebarMenuButton>
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="ml-4">
                 <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild className={isActive("/vulnerable-customers") ? "bg-primary text-primary-foreground" : "hover:bg-secondary"}>
-                      <Link to="/vulnerable-customers">Upload Data</Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild className={isActive("/vulnerable-customers/stats") ? "bg-primary text-primary-foreground" : "hover:bg-secondary"}>
-                      <Link to="/vulnerable-customers/stats">Vulnerability Stats</Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild className={isActive("/vulnerable-customers/list") ? "bg-primary text-primary-foreground" : "hover:bg-secondary"}>
-                      <Link to="/vulnerable-customers/list">Customer List</Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  {vulnerableCustomerItems.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild className={isActive(item.url) ? "bg-primary text-primary-foreground" : "hover:bg-secondary"}>
+                        <Link to={item.url}>
+                          <item.icon className="mr-2 h-4 w-4" />
+                          {!isCollapsed && <span>{item.title}</span>}
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>

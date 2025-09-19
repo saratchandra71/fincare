@@ -8,11 +8,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { DataProvider } from "@/contexts/DataContext";
 import { VulnerabilityProvider } from "@/contexts/VulnerabilityContext";
 import Dashboard from "./pages/Dashboard";
-import Datasets from "./pages/Datasets";
-import ProductsServices from "./pages/consumer-duty/ProductsServices";
-import PriceValue from "./pages/consumer-duty/PriceValue";
-import ConsumerUnderstanding from "./pages/consumer-duty/ConsumerUnderstanding";
-import ConsumerSupport from "./pages/consumer-duty/ConsumerSupport";
+import ConsumerDuty from "./pages/consumer-duty/ConsumerDuty";
 import VulnerableCustomers from "./pages/vulnerable-customers/VulnerableCustomers";
 import VulnerabilityStats from "./pages/vulnerable-customers/VulnerabilityStats";
 import VulnerableCustomerList from "./pages/vulnerable-customers/VulnerableCustomerList";
@@ -47,14 +43,13 @@ const App = () => (
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
                     
-                    {/* Dataset Routes */}
-                    <Route path="/datasets" element={<Datasets />} />
-                    
                     {/* Consumer Duty Routes */}
-                    <Route path="/consumer-duty/products-services" element={<ProductsServices />} />
-                    <Route path="/consumer-duty/price-value" element={<PriceValue />} />
-                    <Route path="/consumer-duty/understanding" element={<ConsumerUnderstanding />} />
-                    <Route path="/consumer-duty/support" element={<ConsumerSupport />} />
+                    <Route path="/consumer-duty" element={<ConsumerDuty />} />
+                    <Route path="/consumer-duty/stats" element={<ConsumerDuty />} />
+                    <Route path="/consumer-duty/products-services" element={<ConsumerDuty />} />
+                    <Route path="/consumer-duty/price-value" element={<ConsumerDuty />} />
+                    <Route path="/consumer-duty/understanding" element={<ConsumerDuty />} />
+                    <Route path="/consumer-duty/support" element={<ConsumerDuty />} />
                     
                     {/* Vulnerable Customers Routes */}
                     <Route path="/vulnerable-customers" element={<VulnerableCustomers />} />
